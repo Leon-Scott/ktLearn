@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <Button
+        android:id="@+id/bt_net_activity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Net Activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/bt_map_activity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Map Activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_net_activity"/>
+
+
+    <Button
+        android:id="@+id/bt_slidimage_activity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Slid image Activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_map_activity"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
