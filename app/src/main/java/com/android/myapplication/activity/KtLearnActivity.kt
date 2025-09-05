@@ -105,12 +105,13 @@ class KtLearnActivity : AppCompatActivity() {
     }
 
 
-    //新的语法结构companion object，并在companion object中定义
-    //了一个actionStart()方法。之所以要这样写，是因为Kotlin规定，所有定义在companion
-    //object代码块中的方法都可以使用类似于Java静态方法的形式调用。
+    //新的语法结构companion object，并在companion object中定义了一个actionStart()方法。
+    //之所以要这样写，是因为Kotlin规定，所有定义在companion object代码块中的方法(伴生类，单例模式)
+    //都可以使用类似于Java静态方法的形式调用。
     companion object {
         fun actionStart(context: Context, data1: String, data2: String) {
-            val intent = Intent(context, SecondActivity::class.java)
+            val intent1 = Intent(context, SecondActivity::class.java)
+            val intent = Intent(context, SecondActivity::class.java)//连续打两个冒号后面提示就出来了
             intent.putExtra("param1", data1)
             intent.putExtra("param2", data2)
             context.startActivity(intent)

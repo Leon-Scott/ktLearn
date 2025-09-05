@@ -58,7 +58,11 @@ fun largeNum3(num:Int,num2:Int):Int{ //
     return value
 }
 
-//largeNumber3精简版 ,return关键字也可以省略了，等号足以表达返回值的意思
+//largeNumber3精简版 ,return关键字也可以省略了，###等号足以表达返回值的意思###
+//Kotlin出色的类型推导机制吗？在这里它也可以发挥重要的作用。由于max()函数返回的是一个
+//Int值，而我们在largerNumber()函数的尾部又使用等号连接了max()函数，因此Kotlin可
+//以推导出largerNumber()函数返回的必然也是一个Int值，这样就不用再显式地声明返回值
+//类型了，代码可以进一步简化成如下形式
 fun largeNumber33(num:Int,num2:Int) = if(num > num2) num else num2
 
 //when 高级版switch,匹配值 -> { 执行逻辑 }
