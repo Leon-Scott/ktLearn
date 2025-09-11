@@ -10,6 +10,7 @@ import java.lang.StringBuilder
 /**
  * @author  longbin
  * @date 2024/10/16
+ * C6高阶函数，内联函数，C7高阶函数的应用
  */
 
 fun main() {
@@ -184,8 +185,8 @@ inline fun num1AndNum2(num1: Int, num2: Int, highFunc: (Int, Int) -> Int): Int {
 
 //它在函数类型的前面加
 //上了一个StringBuilder. 的语法结构。
-//其实这才是定义高阶函数完整的语
-//法规则，在函数类型的前面加上ClassName. （StringBuilder.）就表示这个函数类型是定义在哪个类当中的。
+//其实这才是定义高阶函数完整的语法规则，
+//在函数类型的前面加上ClassName. （StringBuilder.）就表示这个函数类型是定义在哪个类当中的。
 fun StringBuilder.apply2(
     string: StringBuilder = StringBuilder(),
     buildx: StringBuilder.() -> StringBuilder

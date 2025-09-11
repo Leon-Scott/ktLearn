@@ -9,6 +9,7 @@ import kotlin.reflect.KProperty
 /**
  * @author  longbin
  * @date 2024/10/17
+ * 泛型，类委托和委托属性，infix,协变，逆变
  */
 fun main(){
 

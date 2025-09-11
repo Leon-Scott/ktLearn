@@ -83,6 +83,7 @@ fun main() {
     val map2 = mapOf("Apple" to 1, "Banana" to 2, "Orange" to 3)
     //可变map集合mutableMapOf
     val map22 = mutableMapOf("Apple" to 1, "Banana" to 2, "Orange" to 3, 0.56 to 78)//map中key-value类型可以混合，也可以成功遍历
+    map22.put(4,5)
     //遍历Map
     for ((fruit, number) in map22) print("$fruit number is $number ; ")
     println()

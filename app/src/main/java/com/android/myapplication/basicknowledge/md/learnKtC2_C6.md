@@ -70,9 +70,8 @@ class Student:Person(){} ,()这里括号的作用：子类中的构造函数必�
 因为在主构造函数中声明成val或者var的参数将自动成为该类的字段，这就会导致和父 类中同名的name和age字段造成冲突。
 因此，这里的name和age参数前面我们不用加任何关键 字，让它的作用域仅限定在主构造函数当中即可
 ```kotlin
-class Student(val sno: String, val grade: Int, name: String, age: Int) :
- Person(name, age) {
- ...
+class Student(val sno: String, val grade: Int, name: String, age: Int) : Person(name, age) {
+ 
 }
 ```
 次构造函数 constructor
@@ -98,14 +97,14 @@ class Student : Person {
 
 9、接口interface : 
 多个 继承和实现 用,连接
-Kotlin还增加了一个额外的功能：允许对接口中定义的函数进行默认实现，默认实现的函数可以选择实现
+Kotlin还增加了一个额外的功能：允许对接口中定义的函数进行默认实现，默认实现的函数 实现类中可以选择实现
 
 10、函数的可见性修饰符
 分别是public、private、protected(当前类，子类)和internal(同模块)
 kotlin public是默认项
 
 11、数据类
-data class book(val name:String,val price:Float
+data class book(val name:String,val price:Float) 
 神奇的地方就在于data这个关键字，当在一个类前 面声明了data关键字时，就表明你希望这个类是一个数据类，
 Kotlin会根据主构造函数中的参 数帮你将equals()、hashCode()、toString()等固定且无实际逻辑意义的方法自动生成，
 从而大大减少了开发的工作量。
@@ -125,7 +124,7 @@ mutableSetOf
 不同点：Set元素不可以重复，List可以存放多个相同元素
 Map:
 赋值map[key]=value ,取值var value = map[key]
-mapOf{key to value,key2 to value2} //to 是infix函数
+mapOf{key to value,key2 to value2} //to 是infix函数.一种语法糖，使用有限制
 for in 遍历map:for ((key,value) in map){}
 
 14、集合的函数式API
@@ -134,7 +133,7 @@ list.maxBy{it.length}//fruitList,maxBy根据我们传入的条件遍历，找到
 list.maxBy(lambda)
 ②：如果lambda是函数的最后一个参数可以移到括号外面
 list.maxBy(){fruit:String -> fruit.length}
-③：出色的类型推导机制省略参数类型声明+当Lambda中只有一个参数时，可以不必声明，用it代替
+③：出色的类型推导机制省略参数类型声明+[当Lambda中只有一个参数时，可以不必声明，用it代替]
 list.maxBy(){it.length}
 ④：当lambda是唯一参数时，可以省略括号
 list.maxBy{it.length}
@@ -226,14 +225,14 @@ B:注解：@JvmStatic (只能添加在_和_的方法上);顶层方法:xx.kt(java
 fun Classname.methodname(param1:String):Int{return 0}
 fun String.letterCount():Int{//this就是扩展对象本身，可在方法里被使用
     var count = 0
-    for (char in this){
+    for (char in this){//??这就可以遍历字符串了..
         if (char.isLetter()) count++
     } 
     return count
 }
 ```
 2、运算符重载 operator
-+ - * / % ++ -- (plus,minus,times,div,rem,inc,dec) 重载方法名是固定的,方法名对应相应的运算符号
++ - * / % ++ -- (plus,minus,times,div,rem,inc,dec) 重载方法名是固定的,方法名对应相应的运算符号。...
 ```kotlin
 class Money(val value:Int){
     operator fun plus(money:Money):Money{
@@ -257,7 +256,7 @@ fun highFun(func:(String,Int) -> Int){
     val a:Int = func("aaa",3)
 }
 ```
-作用：很广泛。将函数当做参数传入高阶函数，得到不同的运行结果
+作用：很广泛。将函数/lambda当做参数传入高阶函数，得到不同的运行结果
 ```kotlin
 fun plus(num:Int,num2:Int):Int {return num + num2 }
 fun minus(num:Int,num2:Int):Int {return num - num2 }
@@ -267,7 +266,10 @@ fun highFun(num:Int,num2:Int,func:(Int,Int)->Int){
 highFun(3,4,::plus)//result = 7
 highFun(3,4,::minus)//result = -1
 //lambda写法
-highFun(3,4){num1:Int,num2:Int-> num1 + num2}//Lambda表达式中的最后一行代码会自动作为返回值
+highFun(3, 4) { num1: Int, num2: Int -> 
+    num1 + 1
+    num2++ //Val cannot be reassigned,为啥默认val。Kotlin 函数参数（包括高阶函数中的函数类型参数）默认是 val，不可重新赋值
+    num1 + num2 }//Lambda表达式中的最后一行代码会自动作为返回值
 ```
 ::plus 函数引用方式的固定写法
 
@@ -281,8 +283,18 @@ fun StringBuilder.build(block:StringBuilder.()->Unit):StringBuilder{
 StringBuilder().build { 
     append("123")
 }
+//单纯表示block是定义在StringBuilder类当中的,build也是此类当中，所以可以理解接受了一个对应的扩展函数，也是一个限制。某种理解也是写法上的便捷。
+////
+fun StringBuilder.build2(block:(StringBuilder)->Unit):StringBuilder{
+    block(this)
+    return this
+}
+
+StringBuilder().build2 {
+    it.append("123")
+}
 ```
-解析：包含知识点 扩展函数，函数类型前加了StringBuilder.则可以在函数类型里自动拥有StringBuilder的上下文.类似于标准函数apply
+解析：包含知识点 扩展函数，[函数类型前加了StringBuilder.则可以在函数类型里自动拥有StringBuilder的上下文].类似于标准函数apply
 只不过apply可以用于所有对象，此处build只能用于StringBuilder。apply为何如此高级，因为需要借助于Kotlin的泛型才行。后续学习。
 
 2、内联函数
@@ -342,7 +354,7 @@ fun printString(str:String,block:(String)->Unit){
 
 fun main(){
     println("main start")
-    val str = "xxx"
+    val str = ""
     printString(str){str -> 
         if (str.isEmpty()) return@printString
         println(str)
@@ -360,7 +372,7 @@ inline fun printString2(str:String,block:(String)->Unit){
 
 fun main2(){
     println("main start")
-    val str = "xxx"
+    val str = ""
     printString2(str){str ->
         if (str.isEmpty()) return
         println(str)

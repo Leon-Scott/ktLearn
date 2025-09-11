@@ -92,7 +92,7 @@ fun getScoreWhen(name:String) :Int{
         else -> 100
     }
 }
-//getScoreWhen语法糖简写版本，去掉返回类型直接=
+//getScoreWhen语法糖简写版本，去掉返回类型直接=, 意味着返回类型可以随机
 fun getScoreWhen2(name:String) = when {
         name.startsWith("Tom") ->88
         name == "Jack" -> 77

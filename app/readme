@@ -1,2 +1,8 @@
 阅读说明
 记录已学习的知识点...
+
+
+PS E:\Project\MyApplication> git config user.name
+lonn
+PS E:\Project\MyApplication> git config user.email
+loon@163.com
