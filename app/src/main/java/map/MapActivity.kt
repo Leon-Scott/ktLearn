@@ -88,7 +88,7 @@ class MapActivity : AppCompatActivity() {
     fun getAddress(latitude:Double,longitude:Double){
         Log.d("xxx3","lati=$latitude,longi=$longitude")
         try {
-            val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
+            val addresses: MutableList<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
             if (addresses != null && addresses.size > 0) {
                 Log.d("xxx3","地址=${Gson().toJson(addresses)}")
                 val address: Address = addresses[0]

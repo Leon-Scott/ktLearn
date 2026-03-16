@@ -16,7 +16,6 @@ import com.android.myapplication.R
 import com.android.myapplication.myinterface.Result
 import com.android.myapplication.myinterface.Success
 import com.android.myapplication.basicknowledge.startActivityT
-import kotlinx.android.synthetic.main.activity_main.*
 
 class KtLearnActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,8 @@ class KtLearnActivity : AppCompatActivity() {
         //app/build.gradle文件的头部默认引入了一个'kotlin-android-extensions'插件，这个插件会根
         //据布局文件中定义的控件id自动生成一个具有相同名称的变量，我们可以在Activity里直接使用
         //这个变量，而不用再调用findViewById()方法了
-        button1.setOnClickListener {
+        //更新：现在完全不用了，这个插件已经被官方正式废弃了。替代方案：View Binding（官方推荐）参考资料：R.drawable.View_Binding
+        button2.setOnClickListener {
             Toast.makeText(this,"hello, kt!",Toast.LENGTH_SHORT).show()
             println()
         }
@@ -86,6 +86,7 @@ class KtLearnActivity : AppCompatActivity() {
             }
 //            setNegativeButton("Cancel") { dialog, which ->
 //            }
+            //上面是lambada简化写法
             setNegativeButton("Cancel",object :DialogInterface.OnClickListener{
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     TODO("Not yet implemented")
@@ -108,6 +109,7 @@ class KtLearnActivity : AppCompatActivity() {
     //新的语法结构companion object，并在companion object中定义了一个actionStart()方法。
     //之所以要这样写，是因为Kotlin规定，所有定义在companion object代码块中的方法(伴生类，单例模式)
     //都可以使用类似于Java静态方法的形式调用。
+    //companion object是 Kotlin 中用来定义伴生对象的语法结构，它是定义在类内部的单例对象，类似于 Java 中的静态（static）成员，但功能更强大、更灵活。
     companion object {
         fun actionStart(context: Context, data1: String, data2: String) {
             val intent1 = Intent(context, SecondActivity::class.java)
@@ -155,13 +157,13 @@ class KtLearnActivity : AppCompatActivity() {
     //我会在晚些时候对这个变量进行初始化，这样就不用在一开始的时候将它赋值为null了
     private var button:Button? = null
     fun setBtListener(){
-        button = button1
+        button = button2
         button?.setOnClickListener { println() }  //缺点尽管已经确认在前面处理不会null，还是要加?.处理，编译器才能通过
     }
     //优化后
     lateinit var button2:Button
     fun setBtListener2(){
-        button2 = button1
+        button2 = button2
         //另外，我们还可以通过代码来判断一个全局变量是否已经完成了初始化，这样在某些时候能够
         //有效地避免重复对某一个变量进行初始化操作
         //::button2.isInitialized可用于判断button2变量是否已经初始化。
@@ -183,13 +185,13 @@ class KtLearnActivity : AppCompatActivity() {
         when(result){
             is Success -> println("${result.msg}")
 //            is Failure -> throw IllegalArgumentException()
-            is Failure -> result.error
+            is Failure -> result.error.message
         }
     }
     //因为当在when语句中传入一个密封类变量
     //作为条件时，Kotlin编译器会自动检查该密封类有哪些子类，{并强制要求你将每一个子类所对应的条件全部处理}。
-    //这样就可以保证，即使没有编写else条件，也不可能会出现漏写条件分支的
-    //情况。而如果我们现在新增一个Unknown类，并也让它继承自Result，此时
+    //这样就可以保证，即使没有编写else条件，也不可能会出现漏写条件分支的情况。
+    //而如果我们现在新增一个Unknown类，并也让它继承自Result，此时
     //getResultMsg()方法就一定会报错，必须增加一个Unknown的条件分支才能让代码编译通过。
     //这就是密封类主要的作用和使用方法了。
     //另外再多说一句，密封类及其所有子类只能定义在同一个文件的顶层位置，不能嵌套在其他类中，这是被密封类底层的实现机制所限制的。
@@ -198,7 +200,7 @@ class KtLearnActivity : AppCompatActivity() {
 
     //val fragment = supportFragmentManager.findFragmentById(R.id.leftFrag) as LeftFragment
     //kotlin-android-extensions插件也对findFragmentById()方法进行了扩展，允许我们直接使用布局文件中定义的Fragment id名
-    //称来自动获取相应的Fragment实例，
+    //称来自动获取相应的Fragment实例，已被丢弃
 //    val fragment = leftFrag as LeftFragment
 
     //常量，Kotlin中定义常量都是使用的这种方式，在companion object、单例类或顶层作用域中使用const关键字声明一个变量即可

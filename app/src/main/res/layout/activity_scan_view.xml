@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ScanViewActivity">
+
+    <TextView
+        android:id="@+id/tv_playing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="playing view"
+        tools:ignore="MissingConstraints" />
+
+    <com.android.myapplication.view.VideoPlayingIndicatorView
+        android:id="@+id/playing"
+        tools:ignore="MissingConstraints"
+        android:layout_marginTop="10dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/tv_playing"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

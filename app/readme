@@ -1,8 +1,17 @@
 阅读说明
 记录已学习的知识点...
 
-
+查询用户和邮箱
 PS E:\Project\MyApplication> git config user.name
 lonn
 PS E:\Project\MyApplication> git config user.email
 loon@163.com
+
+
+查询关联的远程仓库：
+PS E:\Project\MyApplication> git remote -v
+origin  https://github.com/Leon-Scott/ktLearn.git (fetch)
+origin  https://github.com/Leon-Scott/ktLearn.git (push)
+PS E:\Project\MyApplication> git remote
+origin
+

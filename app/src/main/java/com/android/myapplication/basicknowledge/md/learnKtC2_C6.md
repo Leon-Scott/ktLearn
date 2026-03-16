@@ -113,9 +113,10 @@ Kotlin会根据主构造函数中的参 数帮你将equals()、hashCode()、toSt
 Object Singleton{
     fun test()=1
 }
+伴生对象方式
 
 13、Lambda
-高级用法:高阶函数，DSL
+高级用法:高阶函数，DSL（domain-special language）
 listOf
 mutableListOf
 遍历：for (fruit in fruitList) {}
@@ -124,7 +125,7 @@ mutableSetOf
 不同点：Set元素不可以重复，List可以存放多个相同元素
 Map:
 赋值map[key]=value ,取值var value = map[key]
-mapOf{key to value,key2 to value2} //to 是infix函数.一种语法糖，使用有限制
+mapOf(key to value,key2 to value2) //to 是infix函数.一种语法糖，使用有限制
 for in 遍历map:for ((key,value) in map){}
 
 14、集合的函数式API
@@ -178,7 +179,7 @@ Thread{
 !! 操作符，非空断言。不用帮我检查空指针。我确认它不为空
 辅助工具
 函数
-let:标准函数：obj?.let{it.toString} 立即执行，防空指针好工具
+let:标准函数：obj?.let{it.toString} 立即执行，防空指针好工具,返回最后一行
 
 17、字符串内嵌
 print("hello,${obj.name},nice to meet u")
@@ -196,7 +197,7 @@ printParam(name = "Tom")
 
 
 **第三章：**
-1、标准函数(Standard.kt)**let,with,run,apply**用法和区别；
+1、标准函数(Standard.kt)**let,with,run,apply,also**用法和区别；
 with(obj){obj上下文，这里可以直接调用obj的方法}//obj=stringBuilder,{append("xxx")},返回值是最后一行toString
 ```kotlin
 //吃数字
@@ -209,7 +210,8 @@ with(StringBuilder()){
 ```
 ~str.toIntOrNull()  // stringToInt安全转换
 run函数：obj.run{obj上下文}，最后一行返回值
-apply函数：obj.apply{obj上下文}，无法指定返回值，返回obj本身
+apply函数：obj.apply{obj上下文,this.xxx}，无法指定返回值，返回obj本身
+also函数：obj.also{it.xxx}，无法指定返回值，返回obj本身
 
 2、定义静态方法：
 A:单例类实现方式：1:Object Util，2:Util{ companion object {}}
@@ -282,6 +284,7 @@ fun StringBuilder.build(block:StringBuilder.()->Unit):StringBuilder{
 
 StringBuilder().build { 
     append("123")
+    /3
 }
 //单纯表示block是定义在StringBuilder类当中的,build也是此类当中，所以可以理解接受了一个对应的扩展函数，也是一个限制。某种理解也是写法上的便捷。
 ////
@@ -292,6 +295,20 @@ fun StringBuilder.build2(block:(StringBuilder)->Unit):StringBuilder{
 
 StringBuilder().build2 {
     it.append("123")
+    append("123")
+}
+
+///
+fun StringBuilder.build3(block:Int.()->Unit):StringBuilder{
+    3.block()// ❌3.block()这种写法试图调用 Int 类型的扩展函数，但 Kotlin 中基本类型字面量不能直接调用扩展函数。
+    (3).block()  // ✅ 正确写法，需要括号
+    return this
+}
+
+StringBuilder().build3 {
+    +1
+    plus(1)
+    println()
 }
 ```
 解析：包含知识点 扩展函数，[函数类型前加了StringBuilder.则可以在函数类型里自动拥有StringBuilder的上下文].类似于标准函数apply
@@ -363,7 +380,8 @@ fun main(){
 }
 //return@printString的写法，表示进行局部返回.("main end")还会继续打印
 
-//现在printString2()函数变成了内联函数，我们就可以在Lambda表达式中使用return关键字了。此时的return代表的是返回外层的调用函数，也就是main2()函数，
+//现在printString2()函数变成了内联函数，我们就可以在Lambda表达式中使用return关键字了。此时的return代表的是返回外层的调用函数，
+// 也就是main2()函数，
 inline fun printString2(str:String,block:(String)->Unit){
     println("printString start")
     block(str)
@@ -387,7 +405,7 @@ crossline关键字可以解决这个问题。
 inline fun highFun( crossinline block:()->Unit){
     var runnable = Runnable{
         block()
-    }
+    }.run()
 }
 ```
 因为内联函数的Lambda表达式中允许使用return关键字，和高阶函数的匿名类实现中不允许使用return关键字之间造成了冲突。

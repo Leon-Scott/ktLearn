@@ -4,31 +4,39 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.myapplication.R
+import com.android.myapplication.databinding.ActivityMain3Binding
 import imageSlide.ImageSlideActivity
-import kotlinx.android.synthetic.main.activity_main3.bt_map_activity
-import kotlinx.android.synthetic.main.activity_main3.bt_net_activity
-import kotlinx.android.synthetic.main.activity_main3.bt_slidimage_activity
 import map.MapActivity
 import net.NetActivity
 
 class MainActivity : AppCompatActivity() {
+
+    private val mBinding: ActivityMain3Binding by lazy {
+        ActivityMain3Binding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main3)
+//        setContentView(R.layout.activity_main3)
+        setContentView(mBinding.root)
         initListener()
     }
 
-    fun initListener(){
-        bt_net_activity.setOnClickListener{
-            startActivity(Intent(this,NetActivity::class.java))
+    private fun initListener(){
+        mBinding.btNetActivity.setOnClickListener {
+            startActivity(Intent(this, NetActivity::class.java))
         }
 
-        bt_map_activity.setOnClickListener{
-            startActivity(Intent(this,MapActivity::class.java))
+        mBinding.btMapActivity.setOnClickListener {
+            startActivity(Intent(this, MapActivity::class.java))
         }
 
-        bt_slidimage_activity.setOnClickListener{
-            startActivity(Intent(this,ImageSlideActivity::class.java))
+        mBinding.btSlidimageActivity.setOnClickListener {
+            startActivity(Intent(this, ImageSlideActivity::class.java))
+        }
+
+        mBinding.btScanviewActivity.setOnClickListener {
+            startActivity(Intent(this, ScanViewActivity::class.java))
         }
     }
 }

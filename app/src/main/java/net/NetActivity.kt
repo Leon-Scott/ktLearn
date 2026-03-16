@@ -6,10 +6,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.android.myapplication.R
+import com.android.myapplication.databinding.ActivityNetBinding
 import com.google.gson.Gson
 import consts.Constant.TAG
-import kotlinx.android.synthetic.main.activity_net.bt_get_weather_data
-import kotlinx.android.synthetic.main.activity_net.tv_response
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,6 +28,9 @@ import net.viewModel.WeatherViewModel
 class NetActivity : AppCompatActivity() {
 
     lateinit var viewModel:WeatherViewModel
+    private val mBinding:ActivityNetBinding by lazy {
+        ActivityNetBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +43,13 @@ class NetActivity : AppCompatActivity() {
 
 
     fun initListener() {
-        bt_get_weather_data.setOnClickListener() {
+        mBinding.btGetWeatherData.setOnClickListener() {
             GlobalScope.launch(Dispatchers.IO) {
                 getWeatherDataByCity2("深圳", "zh").collect {
                     Log.d("xxx3","result = ${Gson().toJson(it)}")
 //                    return@collect
                     withContext(Dispatchers.Main) {
-                        tv_response.text = Gson().toJson(it)
+                        mBinding.tvResponse.text = Gson().toJson(it)
                     }
                     val size = it.Data.monthList.size
                     println("month size= $size")
@@ -64,7 +66,7 @@ class NetActivity : AppCompatActivity() {
 
     fun initListener2(){
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
-        bt_get_weather_data.setOnClickListener{
+        mBinding.btGetWeatherData.setOnClickListener{
             /**
             //viewModel开启协程作用域,其实没这么回事，理解错了
             //实际上是这样的写法
@@ -92,7 +94,7 @@ class NetActivity : AppCompatActivity() {
                 viewModel.weatherDataFlow.collect {
                     Log.d(TAG,"weather result3= ${Gson().toJson(it)}")
                     withContext(Dispatchers.Main) {
-                        tv_response.text = Gson().toJson(it)
+                        mBinding.tvResponse.text = Gson().toJson(it)
                     }
                 }
             }
